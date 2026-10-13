@@ -3,10 +3,10 @@
 ## Commands
 
 ```bash
-npm install          # dev tools only (Wrangler, Playwright, axe, pinned); the app itself has no dependencies
+npm install          # dev tools only (Wrangler, Playwright, axe, ESLint, pinned); the app itself has no dependencies
 npx playwright install chromium   # once, before the first npm run test:e2e
 npm start            # wrangler dev at http://localhost:40460, with the production headers from public/_headers
-npm test             # unit tests (node --test tests/*.test.js), including bundle freshness and the version check
+npm test             # ESLint (eslint.config.mjs), then unit tests (node --test tests/*.test.js), including bundle freshness and the version check
 npm run test:e2e     # Playwright, desktop and mobile Chromium, against npm start; includes an axe scan and an offline run
 npm run bundle       # regenerate public/js/oche.bundle.js after editing anything in public/js/
 npm run deploy       # npm test, then wrangler deploy to production (Worker oche, oche.tinkered.app)
