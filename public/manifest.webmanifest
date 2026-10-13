@@ -1,0 +1,60 @@
+{
+  "name": "Oche: automatic darts scoring",
+  "short_name": "Oche",
+  "description": "Stand at the oche and throw. Your phone finds the board in the camera frame and counts every dart on its own. Supports 101, 301 and 501, works offline, needs no calibration.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "id": "oche",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "any",
+  "background_color": "#070a13",
+  "theme_color": "#070a13",
+  "categories": ["games", "sports", "utilities"],
+  "prefer_related_applications": false,
+  "launch_handler": { "client_mode": "focus-existing" },
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icons/screenshot-narrow.png",
+      "sizes": "1080x2340",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Scoring a leg of 301 on the tap-to-score dartboard"
+    },
+    {
+      "src": "icons/screenshot-wide.png",
+      "sizes": "2340x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Oche in landscape, with the scoreboard next to the dartboard"
+    }
+  ]
+}

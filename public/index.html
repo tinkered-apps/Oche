@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#070a13">
+  <title>Oche: automatic darts scoring</title>
+  <meta name="description" content="Stand at the oche and throw. Your phone finds the board in the camera frame and counts every dart on its own. Supports 101, 301 and 501, works offline, needs no calibration.">
+
+  <!-- Link preview: the shelf listing and any chat app that unfurls the URL
+       read these, so they carry the same name and one-liner as the manifest. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Oche">
+  <meta property="og:title" content="Oche: automatic darts scoring">
+  <meta property="og:description" content="Stand at the oche and throw. Your phone finds the board in the camera frame and counts every dart on its own. Supports 101, 301 and 501, works offline, needs no calibration.">
+  <meta property="og:url" content="https://oche.tinkered.app/">
+  <meta property="og:image" content="https://oche.tinkered.app/icons/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Oche wordmark next to a dartboard, over a dark background.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Oche: automatic darts scoring">
+  <meta name="twitter:description" content="Your phone finds the board and counts every dart on its own. No calibration, no backend, works offline.">
+  <meta name="twitter:image" content="https://oche.tinkered.app/icons/social-card.png">
+
+  <!-- Install as an app: Chrome offers “Install”, and on iOS “Add to Home
+       Screen” works. It then runs full screen. -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Oche">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <!-- The score digits are the hero of the screen: preload them so they do not
+       flash a font swap right after start. -->
+  <link rel="preload" href="fonts/oswald-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/oswald-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- After the stylesheet: sets the theme before the first paint, then loads the app. -->
+  <script src="js/boot.js"></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231b1b1f'/><circle cx='50' cy='50' r='28' fill='%23e8d9b0'/><circle cx='50' cy='50' r='14' fill='%232e7d32'/><circle cx='50' cy='50' r='6' fill='%23c62828'/></svg>">
+</head>
+<body>
+<div class="app">
+
+  <div class="app-header">
+    <div class="brand" aria-hidden="true">
+      <svg class="brand-mark" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.6" class="fill"/></svg>
+      <span class="brand-name">Oche</span>
+    </div>
+    <div class="header-tools">
+      <div class="language-switch" role="group" data-i18n-aria="settings.language" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="pl" aria-pressed="false">PL</button>
+      </div>
+      <button type="button" class="theme-switch" id="btnTheme" data-theme-choice="system" aria-label="Theme: Match the device">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <g class="theme-system"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8m-4-3v3"/></g>
+          <g class="theme-light"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></g>
+          <g class="theme-dark"><path d="M20.3 15.8A8.5 8.5 0 0 1 8.2 3.7 8.5 8.5 0 1 0 20.3 15.8Z"/></g>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <header class="scoreboard">
+    <div class="player" id="player0">
+      <span class="player-head"><span class="player-dot"></span><span class="player-name">Player 1</span></span>
+      <span class="player-score">301</span>
+      <span class="player-darts"></span>
+    </div>
+    <div class="player" id="player1">
+      <span class="player-head"><span class="player-dot"></span><span class="player-name">Player 2</span></span>
+      <span class="player-score">301</span>
+      <span class="player-darts"></span>
+    </div>
+  </header>
+
+  <section class="turn">
+    <div class="throws" id="throws" data-i18n-aria="throws.aria" aria-label="Darts in this turn"></div>
+    <div class="status" id="status" data-tone="idle" role="status" aria-live="polite">
+      <span class="status-dot"></span>
+      <span class="status-text" id="statusText" data-i18n="status.setup">Put the phone opposite the board and turn on the camera</span>
+    </div>
+  </section>
+
+  <nav class="modes" id="modes" data-i18n-aria="modes.aria" aria-label="How darts are entered">
+    <button type="button" data-mode="camera" class="on" data-i18n="mode.camera">Camera</button>
+    <button type="button" data-mode="board" data-i18n="mode.board">Board</button>
+    <button type="button" data-mode="keypad" data-i18n="mode.keypad">Keypad</button>
+  </nav>
+
+  <main>
+    <section class="view" id="cameraView">
+      <div class="stage" id="stage">
+        <video id="video" playsinline muted></video>
+        <canvas id="overlay"></canvas>
+        <span class="viewfinder" aria-hidden="true"></span>
+        <div class="stage-msg" id="stageMsg">
+          <p data-i18n="stage.intro">Point the phone so the whole board fits in the frame. I find the board and count the darts.</p>
+          <button type="button" class="primary" id="btnStartCamera" data-i18n="stage.start">Turn on the camera</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="view hidden" id="boardView">
+      <svg id="boardSvg" role="img" data-i18n-aria="board.aria" aria-label="Dartboard"></svg>
+      <p class="view-hint" data-i18n="board.hint">Tap where the dart landed.</p>
+    </section>
+
+    <section class="view hidden" id="keypadView">
+      <div class="keypad">
+        <div class="keypad-numbers" id="keypadNumbers"></div>
+        <div class="keypad-special">
+          <button type="button" data-special="outerBull" data-i18n="keypad.outerBull">25</button>
+          <button type="button" data-special="bull" data-i18n="keypad.bull">BULL 50</button>
+          <button type="button" data-special="out" data-i18n="keypad.miss">MISS 0</button>
+        </div>
+        <!-- The multiplier is tapped before the number and applies to one dart,
+             then switches itself off: there is no mode to turn off later. -->
+        <div class="keypad-mult" id="keypadMult">
+          <button type="button" data-ring="double"></button>
+          <button type="button" data-ring="triple"></button>
+        </div>
+        <p class="view-hint" data-i18n="keypad.hint">A number scores a single. For a double or triple, tap ×2 or ×3 first, then the number.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Dock under the thumb: rare actions as icons at the sides, and handing
+       over the turn, the one aimed at every three darts, as the big button. -->
+  <div class="dock">
+    <button type="button" class="dock-key" id="btnUndo">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h9a5.5 5.5 0 0 1 0 11h-4"/><path d="M8 4.5 3.5 9 8 13.5"/></svg>
+      <span class="dock-label" data-i18n="action.undo">Undo</span>
+    </button>
+    <button type="button" class="dock-key" id="btnCalibrate">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.75"/><path d="M12 1.5V5M12 19v3.5M1.5 12H5M19 12h3.5"/></svg>
+      <span class="dock-label" data-i18n="action.calibrate">Find board</span>
+    </button>
+    <button type="button" class="turn-button" id="btnTurn" data-i18n="turn.next">Next player</button>
+    <button type="button" class="dock-key" id="btnMenu">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11M18 7h3M3 17h4M11 17h10"/><circle cx="16" cy="7" r="2.25"/><circle cx="9" cy="17" r="2.25"/></svg>
+      <span class="dock-label" data-i18n="action.settings">Settings</span>
+    </button>
+  </div>
+
+  <footer class="credit">
+    <span>Oche v<span id="appVersion"></span> by <a href="mailto:kuba@tinkered.app">Kuba</a></span>
+    <span aria-hidden="true">·</span>
+    <a href="https://tinkered.app" target="_blank" rel="noopener"><svg class="footer-logo" viewBox="79 180 1260 842" aria-hidden="true" focusable="false"><path class="footer-logo-t" fill-rule="evenodd" d="m 729.04769,199.78241 -621.00001,-1 -15.999996,3 -11,5 -13,9 -13,17 -5,13 -2,17.99999 1,68 3,11 7,12 15,14 20,7 H 277.04769 l 5,2 8,10 1,553 6,13 220.42051,-334.04584 -13.42051,-0.95416 -12,-6 -8,-8 -5,-12 -1,-200 2,-7 6,-7 7,-3 h 114 l 11,-4 6,-5 68,-103 38,-53.99999 1,-8 z"/><path class="footer-logo-a" fill-rule="evenodd" d="m 690.04769,623.7824 -5,-4 h -168 l -198,298 -24,34 5,9 12,11 9,4 10,2 h 200 l 15,-3 12,-6 6,-5 13,-17 157,-239 v -7 z m 95,-69 -7,9 -36,59 v 6 l 40,68 5,2 h 76 l 4,-2 41,-68 v -5 l -28,-50 -10,-17 -5,-3 z m 2,-352.99999 -15,17 -218,336.99999 -11,20 166,-1 7,-5 35,-57 8,-7 137,-1 7,3 7,8 57,103 1,9 -4,10 -66,103 -9,4 -124,1 -7,5 -33,51 -6,14 3,3 h 197 l 8,3 8,8 70.00001,125 12,13 15.9999,8 10,2 h 199 l 23,-8 15,-15 7,-16 1,-16 -4,-16 -357.99991,-675.99999 -17,-19 -11,-7 -15,-5 -87,-1 z"/></svg>tinkered.app</a>
+    <span aria-hidden="true">·</span>
+    <a href="privacy.html" data-i18n="footer.privacy">Privacy</a>
+  </footer>
+</div>
+
+<dialog id="menuDialog" aria-labelledby="menuTitle">
+  <form method="dialog" class="dialog-body">
+    <h2 id="menuTitle" data-i18n="settings.title">Settings</h2>
+
+    <label><span data-i18n="settings.game">Game</span>
+      <select id="setStart" autofocus>
+        <option value="101" data-i18n="settings.game.101">101 (quick leg)</option>
+        <option value="301" data-i18n="settings.game.301">301</option>
+        <option value="501" data-i18n="settings.game.501">501</option>
+      </select>
+    </label>
+
+    <label class="row">
+      <input type="checkbox" id="setDoubleOut">
+      <span data-i18n="settings.doubleOut">Finish on a double (double out)</span>
+    </label>
+    <p class="dialog-note" data-i18n="settings.doubleOutNote">
+      With this rule only a double or the bulls-eye ends the game, and leaving one
+      point is a bust. Changing the game or the rules mid-leg starts a new one.
+    </p>
+
+    <label><span id="setName0Label">Player 1</span><input type="text" id="setName0" maxlength="16" autocomplete="off"></label>
+    <label><span id="setName1Label">Player 2</span><input type="text" id="setName1" maxlength="16" autocomplete="off"></label>
+
+    <label><span data-i18n="settings.minGap">Closest separate hits</span>
+      <select id="setMinGap">
+        <option value="4" data-i18n="settings.minGap.4">4 mm (tight groups counted separately)</option>
+        <option value="8" data-i18n="settings.minGap.8">8 mm (recommended)</option>
+        <option value="15" data-i18n="settings.minGap.15">15 mm (fewer repeats of the same dart)</option>
+      </select>
+    </label>
+    <p class="dialog-note" data-i18n="settings.minGapNote">
+      A hit closer than this to a dart already counted in this turn is taken for
+      that same dart. A smaller value counts tight groups better, a larger one
+      filters out a dart still shaking after it lands.
+    </p>
+
+    <p class="dialog-note" id="calibrationNote"></p>
+
+    <!-- Shown only when Chrome allows installing the app and it is not
+         installed yet (see setupInstall in js/app.js). -->
+    <div class="install" id="installBox" hidden>
+      <button type="button" class="install-button" id="btnInstall">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v11M7.5 10 12 14.5 16.5 10"/><path d="M4.5 16v2.5a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V16"/></svg>
+        <span data-i18n="settings.install">Install app</span>
+      </button>
+      <p class="dialog-note" data-i18n="settings.installNote">Adds Oche to your home screen like any other app. It opens full screen and works without internet.</p>
+    </div>
+
+    <div class="dialog-actions">
+      <button type="button" class="ghost" id="btnSkip" data-i18n="settings.skip">Skip turn</button>
+      <button type="button" class="danger" id="btnNewGame" data-i18n="settings.newGame">New game</button>
+      <button value="close" class="primary" data-i18n="settings.done">Done</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="editDialog" aria-labelledby="editTitle">
+  <div class="dialog-body">
+    <h2 id="editTitle" data-i18n="edit.title">Fix the dart</h2>
+    <p class="dialog-note" id="editNote"></p>
+
+    <div class="suggestions" id="editSuggestions"></div>
+
+    <details id="editPicker">
+      <summary data-i18n="edit.other">Another bed</summary>
+      <div class="picker">
+        <div class="picker-rings" id="pickerRings">
+          <button type="button" data-ring="single" class="on" data-i18n="ring.single">Single</button>
+          <button type="button" data-ring="double" data-i18n="ring.double">Double</button>
+          <button type="button" data-ring="triple" data-i18n="ring.triple">Triple</button>
+        </div>
+        <div class="picker-numbers" id="pickerNumbers"></div>
+        <div class="picker-special" id="pickerSpecial">
+          <button type="button" data-special="bull" data-i18n="keypad.bull">BULL 50</button>
+          <button type="button" data-special="outerBull" data-i18n="keypad.outerBull">25</button>
+          <button type="button" data-special="out" data-i18n="keypad.miss">MISS 0</button>
+        </div>
+      </div>
+    </details>
+
+    <div class="dialog-actions">
+      <button type="button" class="danger" id="btnDeleteThrow" data-i18n="edit.delete">Delete dart</button>
+      <button type="button" class="ghost" id="btnCloseEdit" data-i18n="edit.close">Close</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- The end of the game is the one moment the app raises its voice: the
+     winner's name in their colour, and under it the figures we already keep. -->
+<dialog id="winDialog" aria-labelledby="winTitle">
+  <div class="dialog-body win">
+    <div class="win-mark" aria-hidden="true">
+      <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21"/><circle cx="24" cy="24" r="13"/><circle cx="24" cy="24" r="5"/></svg>
+    </div>
+    <h2 id="winTitle">Victory</h2>
+    <p id="winText" class="win-line"></p>
+    <dl class="win-stats" id="winStats"></dl>
+    <div class="dialog-actions">
+      <button type="button" class="ghost" id="btnCloseWin" data-i18n="win.close">Close</button>
+      <button type="button" class="primary" id="btnRematch" data-i18n="win.rematch">Rematch</button>
+    </div>
+  </div>
+</dialog>
+</body>
+</html>

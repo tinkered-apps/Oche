@@ -1,0 +1,42 @@
+# Secrets / local environment
+.env
+.env.*
+.dev.vars*
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+
+# Wrangler local state
+.wrangler/
+
+# Dependencies and logs
+node_modules/
+npm-debug.log*
+*.log
+
+# Playwright output
+test-results/
+playwright-report/
+
+# Legal audit working files
+.audyt-prawny/
+
+# Local test material
+__photo.jpg
+
+# Claude Code: worktrees and personal settings
+.claude/worktrees/
+.claude/settings.local.json
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# OS / OneDrive clutter
+Thumbs.db
+desktop.ini
+.DS_Store
+~$*

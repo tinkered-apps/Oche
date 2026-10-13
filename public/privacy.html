@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#070a13">
+  <title>Data and privacy · Oche</title>
+  <meta name="robots" content="noindex">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- After the stylesheet: sets the theme before the first paint, then the language. -->
+  <script src="js/privacy.js"></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231b1b1f'/><circle cx='50' cy='50' r='28' fill='%23e8d9b0'/><circle cx='50' cy='50' r='14' fill='%232e7d32'/><circle cx='50' cy='50' r='6' fill='%23c62828'/></svg>">
+</head>
+<body class="doc">
+  <header class="doc-bar">
+    <a class="doc-brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.6" class="fill"/></svg>
+      <span class="brand-name">Oche</span>
+    </a>
+    <nav class="doc-nav" aria-label="Sections">
+      <a href="index.html" data-locale="en">Back to the game</a>
+      <a href="index.html" data-locale="pl" hidden>Wróć do gry</a>
+    </nav>
+    <div class="doc-lang" role="radiogroup" aria-label="Language">
+      <button type="button" role="radio" data-lang-btn="en" aria-checked="true">EN</button>
+      <button type="button" role="radio" data-lang-btn="pl" aria-checked="false">PL</button>
+    </div>
+  </header>
+
+  <main class="privacy" id="main">
+    <article data-locale="en">
+      <h1>Data and privacy</h1>
+      <p class="privacy-lead">Oche runs entirely in your browser. The camera image is analysed on your phone and is never sent to me or anyone else: there are no accounts, forms, analytics, ads or third-party scripts.</p>
+
+      <section>
+        <h2>Who is responsible</h2>
+        <p>Kuba, <a href="mailto:kuba@tinkered.app">kuba@tinkered.app</a>. Oche is a private, non-commercial hobby project.</p>
+      </section>
+      <section>
+        <h2>What the host records</h2>
+        <p>The site is hosted by Cloudflare. Like any web host, Cloudflare processes your IP address, the time of the request, the page requested and your browser details to deliver the site and protect it from attacks. If a connection to the site fails, your browser may also send Cloudflare a short error report.</p>
+        <p>I can see a sample of these requests, including IP addresses, in the Cloudflare dashboard. I use it only to keep the site working and secure (legitimate interest, Art. 6(1)(f) GDPR). Cloudflare keeps these records for up to 7 days (security events: 24 hours) and then deletes them.</p>
+        <p>Cloudflare, Inc. is based in the United States and processes this data on my behalf under its data processing addendum. Transfers rely on the EU–US Data Privacy Framework, with standard contractual clauses as a fallback. <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener">Cloudflare's privacy policy</a>.</p>
+      </section>
+      <section>
+        <h2>If you email me</h2>
+        <p>Mail to kuba@tinkered.app is forwarded by Cloudflare Email Routing to my Gmail inbox (Google). I use your address and message only to reply (legitimate interest, Art. 6(1)(f) GDPR) and keep the conversation while it may still be useful for follow-up. Ask me to delete it at any time and I will. Google LLC, like Cloudflare, is certified under the EU–US Data Privacy Framework.</p>
+      </section>
+      <section>
+        <h2>Your rights</h2>
+        <p>You can ask for access to your data, its correction or deletion, restriction of processing, or object to processing, by writing to kuba@tinkered.app. You can also complain to your data protection authority; in Poland that is the President of the Personal Data Protection Office (UODO).</p>
+        <p>The hosting records are not tied to names and expire within 7 days. To check whether any of them concern you, send your IP address and the time of your visit within that period.</p>
+      </section>
+      <section>
+        <h2>What the app stores in your browser</h2>
+        <p>To keep your game and your choices between visits, and to open without a network, the app stores these items in your browser. They stay on your device and are not sent to me.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Item</th><th>Type</th><th>Purpose</th><th>Kept until</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Item"><code>darts301.game</code></td><td data-label="Type">local storage</td><td data-label="Purpose">the current leg: game settings, player names and every throw, so a reload does not lose it</td><td data-label="Kept until">you clear the site's data; a new game replaces it</td></tr>
+            <tr><td data-label="Item"><code>darts301.lang</code></td><td data-label="Type">local storage</td><td data-label="Purpose">the language you picked</td><td data-label="Kept until">you clear the site's data</td></tr>
+            <tr><td data-label="Item"><code>darts301.theme</code></td><td data-label="Type">local storage</td><td data-label="Purpose">the theme you picked</td><td data-label="Kept until">you clear the site's data</td></tr>
+            <tr><td data-label="Item">Offline copy of the app (service worker, cache <code>oche-v…</code>)</td><td data-label="Type">service worker and cache storage</td><td data-label="Purpose">the app's own files, so it opens and works without a network</td><td data-label="Kept until">the next version replaces it, or you clear the site's data</td></tr>
+            <tr><td data-label="Item">Network error reporting policy (Cloudflare)</td><td data-label="Type">browser network setting</td><td data-label="Purpose">tells the browser where to send a report if a connection to the site fails</td><td data-label="Kept until">7 days</td></tr>
+          </tbody>
+        </table></div>
+        <p>Remove them at any time in your browser's site settings; the game then starts afresh.</p>
+        <p>No analytics, advertising or profiling.</p>
+      </section>
+      <p class="privacy-updated">Last updated: 25 September 2026</p>
+    </article>
+
+    <article data-locale="pl" hidden>
+      <h1>Dane i prywatność</h1>
+      <p class="privacy-lead">Oche działa w całości w Twojej przeglądarce. Obraz z kamery jest analizowany w telefonie i nigdy nie trafia do mnie ani do nikogo innego: nie ma kont, formularzy, analityki, reklam ani zewnętrznych skryptów.</p>
+
+      <section>
+        <h2>Kto odpowiada za dane</h2>
+        <p>Kuba, <a href="mailto:kuba@tinkered.app">kuba@tinkered.app</a>. Oche to prywatny, niekomercyjny projekt hobbystyczny.</p>
+      </section>
+      <section>
+        <h2>Co zapisuje hosting</h2>
+        <p>Stronę hostuje Cloudflare. Jak każdy hosting, Cloudflare przetwarza adres IP, czas żądania, adres strony i dane przeglądarki, żeby dostarczyć stronę i chronić ją przed atakami. Gdy połączenie ze stroną się nie powiedzie, przeglądarka może też wysłać do Cloudflare krótki raport o błędzie.</p>
+        <p>Próbkę tych żądań, z adresami IP, widzę w panelu Cloudflare. Korzystam z niej wyłącznie w celu utrzymania działania i bezpieczeństwa strony (prawnie uzasadniony interes, art. 6 ust. 1 lit. f RODO). Cloudflare przechowuje te zapisy do 7 dni (zdarzenia bezpieczeństwa: 24 godziny), po czym je usuwa.</p>
+        <p>Cloudflare, Inc. ma siedzibę w USA i przetwarza te dane w moim imieniu na podstawie umowy powierzenia. Transfer opiera się na ramach ochrony danych UE–USA (Data Privacy Framework), a pomocniczo na standardowych klauzulach umownych. <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener">Polityka prywatności Cloudflare</a>.</p>
+      </section>
+      <section>
+        <h2>Jeśli do mnie napiszesz</h2>
+        <p>Poczta na kuba@tinkered.app jest przekazywana przez Cloudflare Email Routing do mojej skrzynki Gmail (Google). Twój adres i treść wiadomości wykorzystuję wyłącznie do odpowiedzi (prawnie uzasadniony interes, art. 6 ust. 1 lit. f RODO) i przechowuję korespondencję, dopóki może być potrzebna do dalszego kontaktu. Na Twoją prośbę usunę ją w każdej chwili. Google LLC, tak jak Cloudflare, ma certyfikację w ramach ochrony danych UE–USA (Data Privacy Framework).</p>
+      </section>
+      <section>
+        <h2>Twoje prawa</h2>
+        <p>Możesz zażądać dostępu do danych, ich sprostowania lub usunięcia, ograniczenia przetwarzania albo wnieść sprzeciw, pisząc na kuba@tinkered.app. Przysługuje Ci też skarga do Prezesa Urzędu Ochrony Danych Osobowych.</p>
+        <p>Zapisy hostingu nie są przypisane do osób i wygasają w ciągu 7 dni. Żeby sprawdzić, czy któryś Cię dotyczy, podaj adres IP i czas wizyty z tego okresu.</p>
+      </section>
+      <section>
+        <h2>Co aplikacja zapisuje w przeglądarce</h2>
+        <p>Żeby zachować grę i Twoje wybory między wizytami oraz działać bez sieci, aplikacja zapisuje w przeglądarce te elementy. Zostają w Twoim urządzeniu i nie trafiają do mnie.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Element</th><th>Rodzaj</th><th>Cel</th><th>Przechowywany do</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Element"><code>darts301.game</code></td><td data-label="Rodzaj">pamięć lokalna</td><td data-label="Cel">bieżący leg: ustawienia gry, nazwy graczy i każdy rzut, żeby odświeżenie strony go nie skasowało</td><td data-label="Przechowywany do">usunięcia danych witryny; nowa gra go zastępuje</td></tr>
+            <tr><td data-label="Element"><code>darts301.lang</code></td><td data-label="Rodzaj">pamięć lokalna</td><td data-label="Cel">wybrany język</td><td data-label="Przechowywany do">usunięcia danych witryny</td></tr>
+            <tr><td data-label="Element"><code>darts301.theme</code></td><td data-label="Rodzaj">pamięć lokalna</td><td data-label="Cel">wybrany motyw</td><td data-label="Przechowywany do">usunięcia danych witryny</td></tr>
+            <tr><td data-label="Element">Kopia aplikacji do pracy offline (service worker, pamięć podręczna <code>oche-v…</code>)</td><td data-label="Rodzaj">service worker i pamięć podręczna</td><td data-label="Cel">własne pliki aplikacji, żeby otwierała się i działała bez sieci</td><td data-label="Przechowywany do">zastąpienia przez następną wersję albo usunięcia danych witryny</td></tr>
+            <tr><td data-label="Element">Polityka raportowania błędów sieci (Cloudflare)</td><td data-label="Rodzaj">ustawienie sieciowe przeglądarki</td><td data-label="Cel">wskazuje przeglądarce, dokąd wysłać raport, gdy połączenie ze stroną się nie powiedzie</td><td data-label="Przechowywany do">7 dni</td></tr>
+          </tbody>
+        </table></div>
+        <p>Usuniesz je w każdej chwili w ustawieniach witryny w przeglądarce; gra zacznie się wtedy od nowa.</p>
+        <p>Bez analityki, reklam i profilowania.</p>
+      </section>
+      <p class="privacy-updated">Ostatnia aktualizacja: 25 września 2026</p>
+    </article>
+  </main>
+</body>
+</html>

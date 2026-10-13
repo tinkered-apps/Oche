@@ -1,0 +1,9 @@
+# Normalise line endings for everyone regardless of local git config:
+# the repo's text files are stored as LF; without this, a contributor's
+# own core.autocrlf setting decides what they end up with, which produces
+# noisy whole-file diffs and false merge conflicts when it disagrees with
+# whatever produced the last commit.
+* text=auto eol=lf
+
+*.png binary
+*.woff2 binary
