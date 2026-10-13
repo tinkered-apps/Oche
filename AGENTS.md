@@ -15,6 +15,7 @@ npm run deploy       # npm test, then wrangler deploy to production (Worker oche
 - Run `npm test` after any change under `public/js/`; `bundle.test.js` fails the suite if `oche.bundle.js` is stale.
 - Run `npm run test:e2e` before pushing UI changes. It is not part of the deploy gate: the Workers Builds image cannot start Chromium.
 - The camera works only on `localhost` or over HTTPS. To test on a phone on the same network, run `npx wrangler dev --port 40460 --ip 0.0.0.0 --local-protocol https` and accept the self-signed certificate.
+- `allowScripts` in `package.json` pins the `esbuild` and `workerd` versions whose install scripts npm may run. Update it when a Wrangler upgrade changes those versions.
 - `public/index.html` also runs straight from disk (`file://`) through the bundle; that is the only reason the bundle exists.
 
 ## Layout
