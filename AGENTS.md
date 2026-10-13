@@ -13,7 +13,7 @@ npm run deploy       # npm test, then wrangler deploy to production (Worker oche
 ```
 
 - Run `npm test` after any change under `public/js/`; `bundle.test.js` fails the suite if `oche.bundle.js` is stale.
-- Run `npm run test:e2e` before pushing UI changes. It is not part of the deploy gate: the Workers Builds image cannot start Chromium.
+- Run `npm run test:e2e` before pushing any change to what the browser receives. It is not part of the deploy gate: the Workers Builds image cannot start Chromium.
 - The camera works only on `localhost` or over HTTPS. To test on a phone on the same network, run `npx wrangler dev --port 40460 --ip 0.0.0.0 --local-protocol https` and accept the self-signed certificate.
 - `allowScripts` in `package.json` pins the `esbuild` and `workerd` versions whose install scripts npm may run. Update it when a Wrangler upgrade changes those versions.
 - `public/index.html` also runs straight from disk (`file://`) through the bundle; that is the only reason the bundle exists.
@@ -67,5 +67,5 @@ wrangler.jsonc       Cloudflare deployment (static assets from public/)
 ## Deployment
 
 - Cloudflare Worker `oche` with static assets, at `oche.tinkered.app`. One environment: the app has no server data and no migrations.
-- Deploy only with `npm run deploy`, which aborts if `npm test` fails.
-- The repository is local only, with no remote yet, so Workers Builds is not connected and deploys are manual.
+- Workers Builds (Worker settings, Builds) deploys every push to `main`: empty build command, deploy command `npm run deploy`, which aborts if `npm test` fails. Other branches run `npm test` only.
+- A manual deploy uses the same command, `npm run deploy`.
