@@ -2526,6 +2526,7 @@ const en = {
 
   'player.default': 'Player {n}',
 
+  'scoreboard.aria': 'Scores',
   'throws.aria': 'Darts in this turn',
   'modes.aria': 'How darts are entered',
   'mode.camera': 'Camera',
@@ -2664,6 +2665,7 @@ const pl = {
 
   'player.default': 'Gracz {n}',
 
+  'scoreboard.aria': 'Wyniki',
   'throws.aria': 'Trafienia w tej kolejce',
   'modes.aria': 'Sposób wpisywania rzutów',
   'mode.camera': 'Kamera',
@@ -2900,7 +2902,7 @@ const { t, setLanguage, getLanguage, applyStaticTranslations, describeScore, def
  * The app version shown in the footer. The service worker's CACHE carries the
  * same number (public/sw.js); tests/version.test.js fails if they differ.
  */
-const APP_VERSION = '1.01';
+const APP_VERSION = '1.02';
 
 /** Width of the frame the image analysis works on. */
 const ANALYSIS_WIDTH = 480;

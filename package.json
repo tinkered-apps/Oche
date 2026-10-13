@@ -3,7 +3,15 @@
   "private": true,
   "type": "module",
   "description": "Oche: a darts scorer that watches the board through your phone camera and counts the darts on its own.",
-  "keywords": ["darts", "scorer", "301", "501", "computer-vision", "pwa", "offline"],
+  "keywords": [
+    "darts",
+    "scorer",
+    "301",
+    "501",
+    "computer-vision",
+    "pwa",
+    "offline"
+  ],
   "homepage": "https://oche.tinkered.app/",
   "author": {
     "name": "Kuba",
@@ -17,6 +25,7 @@
     "deploy": "npm test && wrangler deploy"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@playwright/test": "1.63.0",
     "wrangler": "4.138.0"
   }

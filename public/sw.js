@@ -9,12 +9,11 @@
 //
 // CACHE carries the app version (APP_VERSION in js/app.js); bump both together.
 
-const CACHE = 'oche-v1.01';
+const CACHE = 'oche-v1.02';
 
 const SHELL = [
   './',
-  './index.html',
-  './privacy.html',
+  './privacy',
   './js/privacy.js',
   './js/boot.js',
   './manifest.webmanifest',
@@ -79,6 +78,16 @@ function withTimeout(promise, ms) {
   });
 }
 
+/**
+ * The host redirects index.html to ./ and privacy.html to privacy, and a
+ * redirected response cannot answer a navigation. So SHELL lists pages by
+ * their clean URLs, and an offline visit to the .html form is looked up there.
+ */
+function cleanUrl(url) {
+  const { origin, pathname } = new URL(url);
+  return origin + pathname.replace(/(^|\/)index\.html$/, '$1').replace(/\.html$/, '');
+}
+
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   if (request.method !== 'GET') return;
@@ -93,7 +102,8 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       withTimeout(network, NAVIGATION_TIMEOUT_MS)
         .catch(() => caches.match(request, { ignoreSearch: true })
-          .then((cached) => cached || caches.match('./index.html'))
+          .then((cached) => cached || caches.match(cleanUrl(request.url)))
+          .then((cached) => cached || caches.match('./'))
           .then((cached) => cached || network))
     );
     return;

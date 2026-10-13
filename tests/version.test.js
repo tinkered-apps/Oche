@@ -17,7 +17,11 @@ test('APP_VERSION and the service worker CACHE carry the same version', () => {
 
 test('every file the service worker caches up front exists', () => {
   const list = read('sw.js').match(/const SHELL = \[([\s\S]*?)\];/)[1];
+  const exists = (file) => fs.existsSync(new URL(`../public/${file}`, import.meta.url));
   for (const [, file] of list.matchAll(/'\.\/([^']*)'/g)) {
-    if (file) assert.ok(fs.existsSync(new URL(`../public/${file}`, import.meta.url)), file);
+    // The host serves privacy.html at /privacy and redirects the .html form there.
+    // A cached redirect cannot open a page offline, so SHELL lists the served URL.
+    assert.doesNotMatch(file, /\.html$/, `${file}: list the page without .html ('./' for index.html)`);
+    if (file) assert.ok(exists(file) || exists(`${file}.html`), file);
   }
 });

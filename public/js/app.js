@@ -34,7 +34,7 @@ import {
  * The app version shown in the footer. The service worker's CACHE carries the
  * same number (public/sw.js); tests/version.test.js fails if they differ.
  */
-const APP_VERSION = '1.01';
+const APP_VERSION = '1.02';
 
 /** Width of the frame the image analysis works on. */
 const ANALYSIS_WIDTH = 480;

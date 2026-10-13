@@ -3,11 +3,11 @@
 ## Commands
 
 ```bash
-npm install          # dev tools only (Wrangler, Playwright, pinned); the app itself has no dependencies
+npm install          # dev tools only (Wrangler, Playwright, axe, pinned); the app itself has no dependencies
 npx playwright install chromium   # once, before the first npm run test:e2e
 npm start            # wrangler dev at http://localhost:40460, with the production headers from public/_headers
 npm test             # unit tests (node --test tests/*.test.js), including bundle freshness and the version check
-npm run test:e2e     # Playwright, desktop and mobile Chromium, against npm start
+npm run test:e2e     # Playwright, desktop and mobile Chromium, against npm start; includes an axe scan and an offline run
 npm run bundle       # regenerate public/js/oche.bundle.js after editing anything in public/js/
 npm run deploy       # npm test, then wrangler deploy to production (Worker oche, oche.tinkered.app)
 ```
@@ -43,7 +43,7 @@ public/              everything the site serves, and nothing else
     ├── storage.js    game and language saved in localStorage
     └── oche.bundle.js  generated from the modules above, for file://
 tests/               unit tests (node --test), including a synthetic board generator
-e2e/                 Playwright specs; fixtures.js fails a test on console errors and warns on other-origin requests
+e2e/                 Playwright specs (app, a11y, offline); fixtures.js fails a test on console errors and warns on other-origin requests
 scripts/bundle.js    builds public/js/oche.bundle.js
 wrangler.jsonc       Cloudflare deployment (static assets from public/)
 ```
@@ -59,12 +59,12 @@ wrangler.jsonc       Cloudflare deployment (static assets from public/)
 - **Theme.** Light, dark or the device's setting, chosen from the top-right header control. `boot.js` stores the choice and sets `data-theme` on `<html>` before the first paint; `app.js` talks to it through `window.ocheTheme`. Colours are CSS custom properties; add a new colour to both theme blocks in `style.css`.
 - **Privacy page.** `public/privacy.html` starts from `C:\GIT Repos\.tinkered-legal\privacy-template.html`; the controller, hosting, email and rights sections come from that folder's `profil-wydawcy.md` and are not reworded here. Keep its table of what the app stores in the browser in step with `storage.js`, `boot.js` and `sw.js`. It is `noindex` in the page and in `_headers`. The legal audit and its project profile are in `.audyt-prawny/`.
 - **Security headers live in `public/_headers`.** No inline scripts or event-handler attributes. One deviation from the baseline: `Permissions-Policy` allows `camera=(self)`, because Camera mode needs it.
-- **Version.** `APP_VERSION` in `public/js/app.js` fills the footer, and `CACHE` in `public/sw.js` carries the same number (`oche-vX.XX`). Bump both on a user-visible release and whenever the cached file list or caching rules change; `tests/version.test.js` fails if they differ. Add new shell files to `SHELL` in `sw.js`.
+- **Version.** `APP_VERSION` in `public/js/app.js` fills the footer, and `CACHE` in `public/sw.js` carries the same number (`oche-vX.XX`). Bump both on a user-visible release and whenever the cached file list or caching rules change; `tests/version.test.js` fails if they differ. Add new shell files to `SHELL` in `sw.js`. Pages are listed there by the URL the host serves (`./`, `./privacy`), never the `.html` form: the host redirects that form, and a cached redirect cannot open a page offline. The fetch handler maps an offline `.html` visit to the clean URL, and `tests/version.test.js` rejects `.html` entries.
 - **No third-party requests, no analytics.** Fonts and images are self-hosted, and the footer's tinkered.app logo is inline SVG. The footer links (`mailto:` and `https://tinkered.app`) load nothing. Analytics would add a request to another origin and a privacy notice without answering an operational question. Adding any external service, analytics, accounts or ads changes the legal assessment and needs a re-check first.
-- **Tests.** Unit tests use Node's built-in runner in `tests/*.test.js`. Browser flows use Playwright in `e2e/*.spec.js` and import `test` from `e2e/fixtures.js`.
+- **Tests.** Unit tests use Node's built-in runner in `tests/*.test.js`. Browser flows use Playwright in `e2e/*.spec.js` and import `test` from `e2e/fixtures.js`. `playwright.config.js` blocks service workers; only `e2e/offline.spec.js` turns them on.
 
 ## Deployment
 
 - Cloudflare Worker `oche` with static assets, at `oche.tinkered.app`. One environment: the app has no server data and no migrations.
 - Deploy only with `npm run deploy`, which aborts if `npm test` fails.
-- The project is not in Git yet, so Workers Builds is not connected and deploys are manual.
+- The repository is local only, with no remote yet, so Workers Builds is not connected and deploys are manual.

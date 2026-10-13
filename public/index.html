@@ -44,11 +44,11 @@
 <body>
 <div class="app">
 
-  <div class="app-header">
-    <div class="brand" aria-hidden="true">
-      <svg class="brand-mark" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.6" class="fill"/></svg>
+  <header class="app-header">
+    <h1 class="brand">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.6" class="fill"/></svg>
       <span class="brand-name">Oche</span>
-    </div>
+    </h1>
     <div class="header-tools">
       <div class="language-switch" role="group" data-i18n-aria="settings.language" aria-label="Language">
         <button type="button" data-lang="en" aria-pressed="true">EN</button>
@@ -62,9 +62,9 @@
         </svg>
       </button>
     </div>
-  </div>
+  </header>
 
-  <header class="scoreboard">
+  <section class="scoreboard" data-i18n-aria="scoreboard.aria" aria-label="Scores">
     <div class="player" id="player0">
       <span class="player-head"><span class="player-dot"></span><span class="player-name">Player 1</span></span>
       <span class="player-score">301</span>
@@ -75,10 +75,10 @@
       <span class="player-score">301</span>
       <span class="player-darts"></span>
     </div>
-  </header>
+  </section>
 
-  <section class="turn">
-    <div class="throws" id="throws" data-i18n-aria="throws.aria" aria-label="Darts in this turn"></div>
+  <section class="turn" data-i18n-aria="throws.aria" aria-label="Darts in this turn">
+    <div class="throws" id="throws"></div>
     <div class="status" id="status" data-tone="idle" role="status" aria-live="polite">
       <span class="status-dot"></span>
       <span class="status-text" id="statusText" data-i18n="status.setup">Put the phone opposite the board and turn on the camera</span>

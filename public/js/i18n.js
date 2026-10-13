@@ -11,6 +11,7 @@ const en = {
 
   'player.default': 'Player {n}',
 
+  'scoreboard.aria': 'Scores',
   'throws.aria': 'Darts in this turn',
   'modes.aria': 'How darts are entered',
   'mode.camera': 'Camera',
@@ -149,6 +150,7 @@ const pl = {
 
   'player.default': 'Gracz {n}',
 
+  'scoreboard.aria': 'Wyniki',
   'throws.aria': 'Trafienia w tej kolejce',
   'modes.aria': 'Sposób wpisywania rzutów',
   'mode.camera': 'Kamera',
