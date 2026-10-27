@@ -6,7 +6,8 @@ import globals from 'globals';
 
 export default [
   // Generated from the modules by scripts/bundle.js; the modules themselves are linted.
-  { ignores: ['node_modules/', 'test-results/', 'playwright-report/', '.wrangler/', 'public/js/oche.bundle.js'] },
+  // .marketing/ holds local, git-ignored promo material.
+  { ignores: ['node_modules/', 'test-results/', 'playwright-report/', '.wrangler/', '.marketing/', 'public/js/oche.bundle.js'] },
 
   js.configs.recommended,
   // An unused name in `catch (error)` is harmless and the app ships those as written.
