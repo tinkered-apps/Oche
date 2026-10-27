@@ -9,7 +9,7 @@
 //
 // CACHE carries the app version (APP_VERSION in js/app.js); bump both together.
 
-const CACHE = 'oche-v1.00';
+const CACHE = 'oche-v1.01';
 
 const SHELL = [
   './',
